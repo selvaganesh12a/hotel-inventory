@@ -1,0 +1,15 @@
+<h2>Available Rooms</h2>
+<table border="1">
+  <tr>
+    <th>Room Number</th>
+    <th>Type</th>
+    <th>Price</th>
+    <th>Status</th>
+  </tr>
+  <tr *ngFor="let room of rooms">
+    <td>{{ room.roomNumber }}</td>
+    <td>{{ room.type }}</td>
+    <td>{{ room.price }}</td>
+    <td>{{ room.isAvailable ? 'Available' : 'Booked' }}</td>
+  </tr>
+</table>
