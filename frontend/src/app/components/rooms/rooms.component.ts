@@ -1,17 +1,17 @@
 import { Component, OnInit } from '@angular/core';
-import { RoomService } from '../../services/room.service';
+import { RoomService } from '../../services/rooms/room.service';
 import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-rooms',
   imports: [CommonModule],
   templateUrl: './rooms.component.html',
-  styleUrl: './rooms.component.css'
+  styleUrl: './rooms.component.css',
 })
 export class RoomsComponent implements OnInit {
   rooms: any = [];
 
-  constructor(private roomService: RoomService) { }
+  constructor(private roomService: RoomService) {}
 
   ngOnInit(): void {
     this.fetchRooms();
