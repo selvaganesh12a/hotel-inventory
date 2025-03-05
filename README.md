@@ -1,2 +1,2 @@
-# hotel-inventorys
+# hotel-inventory
  mean-project
