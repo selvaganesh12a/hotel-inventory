@@ -27,14 +27,17 @@ export class BookingComponent implements OnInit {
 
   ngOnInit(): void {
     this.fetchRooms();
+    // console.log('Rooms Data:', this.rooms);
     this.fetchBookings();
   }
 
   fetchRooms(): void {
+    console.log('Fetching rooms...');
     this.roomService.getRooms().subscribe(
       (data) => {
-        console.log('Rooms:', data);
-        this.rooms = data.filter((room: any) => room.isAvailable); // Show only available rooms
+        //console.log('Fetched Rooms: ', data);
+        this.rooms = data.filter((room: { status: string }) => room.status === 'Available');
+        //console.log("Available Rooms: ",this.rooms);
       },
       (error) => console.error('Error fetching rooms:', error)
     );
@@ -43,7 +46,7 @@ export class BookingComponent implements OnInit {
   fetchBookings(): void {
     this.bookingService.getBookings().subscribe(
       (data) => {
-        this.bookings = data;
+        this.bookings = [...data];
       },
       (error) => console.error('Error fetching bookings:', error)
     );
@@ -53,7 +56,10 @@ export class BookingComponent implements OnInit {
     this.bookingService.bookRoom(this.newBooking).subscribe(
       (response) => {
         alert('Room booked successfully');
-        this.fetchRooms();
+        //this.fetchRooms();
+        this.rooms = this.rooms.filter(
+          (room: { _id: string }) => room._id !== this.newBooking.roomId
+        );
         this.fetchBookings();
       },
       (error) => console.error('Error booking room:', error)

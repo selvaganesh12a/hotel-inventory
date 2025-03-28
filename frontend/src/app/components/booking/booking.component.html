@@ -1,20 +1,21 @@
 <h2>Book a Room</h2>
 <form (submit)="bookRoom()">
   <label>Customer Name:</label>
-  <input type="text" [(ngModel)]="newBooking.customerName" required />
+  <input type="text" [(ngModel)]="newBooking.customerName" name="customerName" required />
 
-  <label>Select Room:</label>
-  <select [(ngModel)]="newBooking.roomId" required>
+  <label>Select Room: </label>
+  <select [(ngModel)]="newBooking.roomId" name="roomId" required>
+    <option value="" disabled selected>Select a room</option>
     <option *ngFor="let room of rooms" [value]="room._id">
       Room {{ room.roomNumber }} - {{ room.type }} (₹{{ room.price }})
     </option>
   </select>
 
-  <label>Check-in Date:</label>
-  <input type="date" [(ngModel)]="newBooking.checkInDate" required />
+  <label>Check-in Date: </label>
+  <input type="date" [(ngModel)]="newBooking.checkInDate" name="checkInDate" required />
 
-  <label>Check-out Date:</label>
-  <input type="date" [(ngModel)]="newBooking.checkOutDate" required />
+  <label>Check-out Date: </label>
+  <input type="date" [(ngModel)]="newBooking.checkOutDate" name="checkOutDate" required />
 
   <button type="submit">Book Now</button>
 </form>

@@ -6,10 +6,10 @@
     <th>Price</th>
     <th>Status</th>
   </tr>
-  <tr *ngFor="let room of rooms">
+  <tr *ngFor="let room of filteredRooms">
     <td>{{ room.roomNumber }}</td>
     <td>{{ room.type }}</td>
     <td>{{ room.price }}</td>
-    <td>{{ room.isAvailable ? 'Available' : 'Booked' }}</td>
+    <td>{{ room.status }}</td>
   </tr>
 </table>

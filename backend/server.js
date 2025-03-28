@@ -10,9 +10,6 @@ const PORT = process.env.PORT || 5000;
 app.use(express.json()); // Parse JSON requests
 app.use(cors()); // Enable CORS
 
-const bookingRoutes = require("./routes/bookingRoutes");
-app.use("/api/bookings", bookingRoutes);
-
 // Connect to MongoDB
 mongoose
   .connect(process.env.MONGO_URI, {
@@ -35,5 +32,5 @@ app.listen(PORT, () => {
 const roomRoutes = require("./routes/roomRoutes");
 app.use("/api/rooms", roomRoutes);
 
-// const bookingRoutes = require("./routes/bookingRoutes");
-// app.use("/api/bookings", bookingRoutes);
+const bookingRoutes = require("./routes/bookingRoutes");
+app.use("/api/bookings", bookingRoutes);

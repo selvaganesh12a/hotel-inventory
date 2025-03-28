@@ -6,7 +6,7 @@ const router = express.Router();
 // Create a Room
 router.post("/add", async (req, res) => {
   try {
-    const newRoom = new Room(req.body);
+    const rooms = await Room.insertMany(req.body);
     await newRoom.save();
     res
       .status(201)
@@ -19,7 +19,8 @@ router.post("/add", async (req, res) => {
 // Get all Rooms
 router.get("/all", async (req, res) => {
   try {
-    const rooms = await Room.find();
+    const rooms = await Room.find({status: "Available"});
+    console.log("Rooms from DB ",rooms);
     res.json(rooms);
   } catch (error) {
     res.status(500).json({ error: error.message });

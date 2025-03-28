@@ -10,6 +10,7 @@ import { CommonModule } from '@angular/common';
 })
 export class RoomsComponent implements OnInit {
   rooms: any = [];
+  filteredRooms: any;
 
   constructor(private roomService: RoomService) {}
 
@@ -21,6 +22,10 @@ export class RoomsComponent implements OnInit {
     this.roomService.getRooms().subscribe(
       (data) => {
         this.rooms = data;
+        //console.log('Rooms Data:', this.rooms);
+        this.filteredRooms = this.rooms.filter(
+          (room: { status: string; }) => room.status === 'Available'
+        );
       },
       (error) => {
         console.log('Error fetching rooms:', error);

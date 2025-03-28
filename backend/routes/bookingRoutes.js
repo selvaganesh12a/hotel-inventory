@@ -8,14 +8,15 @@ router.post("/book", async (req, res) => {
     const { roomId, customerName, checkInDate, checkOutDate } = req.body;
 
     // Check if room is available
-    console.log(roomId);
+    //console.log(roomId);
     const room = await Room.findById(roomId);
-    console.log(room);
+    //console.log(room);
+
     if (!room) {
       return res.status(404).json({ error: "Room not found" });
     }
 
-    if (room.status == "Available") {
+    if (room.status === "Available") {
       const newBooking = new Booking({
         roomId,
         customerName,
@@ -30,16 +31,18 @@ router.post("/book", async (req, res) => {
       room.status = "Booked";
       await room.save();
 
-      res
+      // Ensure this is the only response
+      return res
         .status(201)
         .json({ message: "Booking successful", booking: newBooking });
     }
+
+    // This only runs if room is NOT available
     return res
       .status(400)
       .json({ message: "Room is not available for booking" });
-    // Create a new booking
   } catch (error) {
-    res.status(500).json({ error: error.message });
+    return res.status(500).json({ error: error.message });
   }
 });
 
