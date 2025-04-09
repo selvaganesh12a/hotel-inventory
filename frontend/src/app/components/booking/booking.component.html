@@ -1,7 +1,12 @@
 <h2>Book a Room</h2>
 <form (submit)="bookRoom()">
   <label>Customer Name:</label>
-  <input type="text" [(ngModel)]="newBooking.customerName" name="customerName" required />
+  <input
+    type="text"
+    [(ngModel)]="newBooking.customerName"
+    name="customerName"
+    required
+  />
 
   <label>Select Room: </label>
   <select [(ngModel)]="newBooking.roomId" name="roomId" required>
@@ -12,10 +17,20 @@
   </select>
 
   <label>Check-in Date: </label>
-  <input type="date" [(ngModel)]="newBooking.checkInDate" name="checkInDate" required />
+  <input
+    type="date"
+    [(ngModel)]="newBooking.checkInDate"
+    name="checkInDate"
+    required
+  />
 
   <label>Check-out Date: </label>
-  <input type="date" [(ngModel)]="newBooking.checkOutDate" name="checkOutDate" required />
+  <input
+    type="date"
+    [(ngModel)]="newBooking.checkOutDate"
+    name="checkOutDate"
+    required
+  />
 
   <button type="submit">Book Now</button>
 </form>
@@ -34,6 +49,10 @@
     <td>{{ booking.customerName }}</td>
     <td>{{ booking.checkInDate }}</td>
     <td>{{ booking.checkOutDate }}</td>
-    <td><button (click)="cancelBooking(booking._id)">Cancel</button></td>
+    <td>
+      <button (click)="cancelBooking(booking._id, booking.room?._id)">
+        Cancel
+      </button>
+    </td>
   </tr>
 </table>

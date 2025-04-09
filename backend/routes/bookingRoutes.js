@@ -1,6 +1,7 @@
 const express = require("express");
 const Booking = require("../models/Booking"); // Booking Model
 const Room = require("../models/room"); // Room Model
+const room = require("../models/room");
 const router = express.Router();
 
 router.post("/book", async (req, res) => {
@@ -71,20 +72,31 @@ router.put("/update/:id", async (req, res) => {
   }
 });
 
-router.delete("/cancel/:id", async (req, res) => {
+router.delete("/cancel/:bookingId/:roomId", async (req, res) => {
   try {
-    const booking = await Booking.findById(req.params.id);
-    if (!booking) {
-      return res.status(404).json({ message: "Booking not found" });
+    const { bookingId, roomId } = req.params;
+
+    if (!roomId || roomId === "null") {
+      return res.status(400).json({ error: "Invalid room ID" });
     }
 
-    // Make room available again
-    await Room.findByIdAndUpdate(booking.roomId, { availability: true });
+    const deletedBooking = await Booking.findByIdAndDelete(bookingId);
 
-    // Delete booking
-    await Booking.findByIdAndDelete(req.params.id);
+    if(!deletedBooking) {
+      return res.status(404).json({ error: "Booking not found" });
+    }
+    
+    const updatedRoom = await Room.findByIdAndUpdate(
+      roomId,
+      { status: "Available" },
+      { new: true }
+    );
+    console.log("Updated Room Status:", updatedRoom.status);
+    if(!updatedRoom) {
+      return res.status(404).json({ error: "Room not found" });
+    }
 
-    res.json({ message: "Booking cancelled successfully!" });
+    res.json({ message: "Booking cancelled successfully!", room: updatedRoom });
   } catch (error) {
     res.status(500).json({ error: error.message });
   }

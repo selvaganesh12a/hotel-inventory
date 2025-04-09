@@ -25,7 +25,7 @@ export class BookingService {
     );
   }
 
-  cancelBooking(bookingId: string): Observable<any> {
-    return this.http.delete<any>(`${this.apiUrl}/cancel/${bookingId}`);
+  cancelBooking(bookingId: string, roomId: string): Observable<any> {
+    return this.http.delete(`${this.apiUrl}/cancel/${bookingId}/${roomId}`);
   }
 }

@@ -35,8 +35,10 @@ export class BookingComponent implements OnInit {
     console.log('Fetching rooms...');
     this.roomService.getRooms().subscribe(
       (data) => {
-        //console.log('Fetched Rooms: ', data);
-        this.rooms = data.filter((room: { status: string }) => room.status === 'Available');
+        console.log('Fetched Rooms (Raw): ', data);
+        this.rooms = data.filter(
+          (room: { status: string }) => room.status === 'Available'
+        );
         //console.log("Available Rooms: ",this.rooms);
       },
       (error) => console.error('Error fetching rooms:', error)
@@ -47,6 +49,7 @@ export class BookingComponent implements OnInit {
     this.bookingService.getBookings().subscribe(
       (data) => {
         this.bookings = [...data];
+        console.log('Fetched bookings:', this.bookings);
       },
       (error) => console.error('Error fetching bookings:', error)
     );
@@ -66,14 +69,23 @@ export class BookingComponent implements OnInit {
     );
   }
 
-  cancelBooking(bookingId: string): void {
-    this.bookingService.cancelBooking(bookingId).subscribe(
-      () => {
+  cancelBooking(bookingId: string, roomId: string) {
+    console.log('Cancelling Booking:', bookingId, roomId);
+
+    if (!roomId) {
+      alert('Cannot cancel booking: Room ID is missing.');
+      return;
+    }
+
+    if (confirm('Are you sure to cancel this booking ? ')) {
+      this.bookingService.cancelBooking(bookingId, roomId).subscribe(() => {
         alert('Booking cancelled successfully');
-        this.fetchRooms();
-        this.fetchBookings();
-      },
-      (error) => console.log('Error cancelling booking:', error)
-    );
+
+        setTimeout(() => {
+          this.fetchRooms();
+          this.fetchBookings();
+        }, 1000);
+      });
+    }
   }
 }
